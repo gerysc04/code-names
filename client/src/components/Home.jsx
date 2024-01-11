@@ -1,23 +1,20 @@
 import { useState } from "react"
-import socketIO from "socket.io-client"
 import { generateId } from "../helpers"
 
-const socket = socketIO.connect("http://localhost:4000")
 
-socket.on('user-connected', data => {
-  console.log(data);
-});
+
 
 function Home({ socket }) {
-  const [lobbyId, setLobbyId] = useState('')
-  const [username, setusername] = useState('')
-  
   socket.on('lobby-created', data => {
-    console.log('fired')
     const user = { name: data.username, team: 0, role: 0, ready: false }
     socket.emit('join-lobby', { user, lobbyId: data.lobbyId })
   })
+  const [lobbyId, setLobbyId] = useState('')
+  const [username, setusername] = useState('')
   
+  socket.on('user-connected', data => {
+    console.log(data);
+  });
 
   const handleChangeLobbyId = (e) => {
     setLobbyId(e.target.value)
@@ -42,6 +39,7 @@ function Home({ socket }) {
     if (username === '') return alert('please insert a username')
     if (lobbyId === '') return alert('please insert a lobby id')
     const user = { name: username, team: 0, role: 0, ready: false }
+  console.log('fired')
     socket.emit('join-lobby', { user, lobbyId })
   }
   const handleOpenJoinModal = () => {

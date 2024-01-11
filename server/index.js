@@ -24,11 +24,14 @@ socketIO.on('connection', (socket) => {
     socket.emit('lobby-created', {lobbies, lobbyId: newLobby.lobbyId, username})
   })
   socket.on('join-lobby', ({user, lobbyId}) => {
-    socket.join('fired')
+    console.log('fired')
     const lobby = lobbies.find(lobby => lobby.lobbyId === lobbyId)
+    if (!lobby) return
+    if (lobby.users.some(oldUser => oldUser.name === user.name )) return
     lobby.users.push(user)
+    socket.join(lobbyId)
     console.log(lobbies)
-    socketIO.to(lobbyId).emit('user-connected', {message: 'test'})
+    socketIO.to(lobbyId).emit('user-connected', {user, lobbyId, lobbies})
   });
 });
    
