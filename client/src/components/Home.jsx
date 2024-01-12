@@ -1,29 +1,33 @@
 import { useState } from "react"
 import { generateId } from "../helpers"
-
+import { useNavigate } from "react-router-dom"
 
 
 
 function Home({ socket }) {
-  socket.on('lobby-created', data => {
-    const user = { name: data.username, team: 0, role: 0, ready: false }
-    socket.emit('join-lobby', { user, lobbyId: data.lobbyId })
-  })
   const [lobbyId, setLobbyId] = useState('')
   const [username, setusername] = useState('')
+  const navigate = useNavigate()
   
-  socket.on('user-connected', data => {
-    console.log(data);
+  socket.on('lobby-created', ({lobby, username}) => {
+    const user = { name: username, team: 0, role: 0, ready: false }
+    socket.emit('join-lobby', { user, lobbyId: lobby.lobbyId })
+  })
+
+  socket.on('user-connected', ({user, lobbyId}) => {
+    localStorage.setItem('username', user.name)
+    navigate('/lobby/'+ lobbyId)
   });
 
+  socket.on('error', data => {
+    return alert(data.msg)
+  } )
   const handleChangeLobbyId = (e) => {
     setLobbyId(e.target.value)
-    console.log(lobbyId)
   }
 
   const handleChangeUsername = (e) => {
     setusername(e.target.value)
-    console.log(username)
   }
 
 
@@ -38,8 +42,7 @@ function Home({ socket }) {
     e.preventDefault()
     if (username === '') return alert('please insert a username')
     if (lobbyId === '') return alert('please insert a lobby id')
-    const user = { name: username, team: 0, role: 0, ready: false }
-  console.log('fired')
+    const user = { name: username, team: 0, role: 0, ready: false, spymasterWords: [] }
     socket.emit('join-lobby', { user, lobbyId })
   }
   const handleOpenJoinModal = () => {
@@ -50,7 +53,6 @@ function Home({ socket }) {
   const handleCloseJoinModal = () => {
     const modal = document.getElementById('join-modal')
     modal.style.display = 'none'
-    console.log()
   }
 
   const handleOpenCreateModal = () => {
@@ -61,7 +63,6 @@ function Home({ socket }) {
   const handleCloseCreateModal = () => {
     const modal = document.getElementById('create-modal')
     modal.style.display = 'none'
-    console.log()
   }
 
   return (

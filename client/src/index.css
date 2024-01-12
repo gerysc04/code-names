@@ -97,3 +97,26 @@ body {
   background-color: #DD1C1A;
   border: 0px;
 }
+
+.user {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.teams {
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.team {
+  width: 50%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
