@@ -140,3 +140,7 @@ body {
 .word {
   font-size: 15px;
 }
+
+.card-1 {
+  background-color: blue;
+}

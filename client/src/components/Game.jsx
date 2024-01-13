@@ -7,11 +7,11 @@ function Game({ socket }) {
   const {lobbyId} = useParams()
   const [lobby, setLobby] = useState({users: []})
   const [user, setUser] = useState({name: '', team: 0, role: 0, ready: false})
-  const username = localStorage.getItem('username')
+  const username = sessionStorage.getItem('username')
+  console.log(username)
   socket.on('return-lobby', newLobby => {
     setLobby(newLobby)
     socket.emit('game-started', lobbyId)
-    console.log(lobby.spymasterWords);
   })
   
   socket.on('update-lobby',lobby => {
@@ -31,8 +31,9 @@ return (
     <>
     <div className="container">
       <div className="upper-content">
+        <h2>{username}</h2>
       <WordPannel words={lobby.spymasterWords} team={1}  />
-      {user.role === 1 ? <SpymasterBoard words={lobby.words} />  : <Board words={lobby.words} /    >}
+      {user.role === 2 ? <SpymasterBoard words={lobby.words} />  : <Board words={lobby.words} /    >}
       <WordPannel words={lobby.spymasterWords} team={2}  />
       </div>
 

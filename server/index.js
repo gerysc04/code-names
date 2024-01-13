@@ -24,9 +24,11 @@ socketIO.on('connection',  (socket) => {
     lobby.methods.updateLobby(lobbyFetched)
     socket.join(lobbyId)
     socketIO.to(lobbyId).emit('user-connected', {user, lobbyId})
+    socketIO.to(socket.id).emit('new-user-connected', {user, lobbyId})
   });
 
   socket.on('get-lobby',async lobbyId => {
+    socket.join(lobbyId)
     const lobbyFetched = await lobby.methods.findLobby(lobbyId)
     socketIO.to(socket.id).emit('return-lobby', lobbyFetched)
   })
@@ -36,7 +38,9 @@ socketIO.on('connection',  (socket) => {
     if (!lobbyFetched) return
     lobbyFetched.gameStarted = true
     lobby.methods.updateLobby(lobbyFetched)
+    console.log(lobbyId)
     socketIO.to(lobbyId).emit('update-lobby', lobbyFetched)
+    socketIO.to(socket.id).emit('update-lobby', lobbyFetched)
   })
 
   socket.on('get-user', async ({username, lobbyId}) => {
@@ -55,7 +59,9 @@ socketIO.on('connection',  (socket) => {
       }
     });
    lobby.methods.updateLobby(lobbyFetched)
+   console.log(lobbyId)
     socketIO.to(lobbyId).emit('update-lobby', lobbyFetched)
+    socketIO.to(socket.id).emit('update-lobby', lobbyFetched)
   })
 
   socket.on('update-user-ready', async ({user, lobbyId}) => {
@@ -68,6 +74,7 @@ socketIO.on('connection',  (socket) => {
     });
    lobby.methods.updateLobby(lobbyFetched)
     socketIO.to(lobbyId).emit('update-lobby', lobbyFetched)
+    socketIO.to(socket.id).emit('update-lobby', lobbyFetched)
   })
 });
    

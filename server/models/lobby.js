@@ -33,7 +33,6 @@ lobby.methods.addLobby = async function addLobby (lobby) {
  try {
   if (lobby === null) return
   const lobbyWithId = await Lobby.findOne({lobbyId: lobby.lobbyId})
-  console.log(lobby.spymasterWords)
   if(!lobbyWithId)return await Lobby.create({lobbyId: lobby.lobbyId, users: lobby.users, words: lobby.words, gameStarted: lobby.gameStarted, spymasterWords: lobby.spymasterWords})
  } catch (error) {
   console.log(error)
@@ -42,7 +41,6 @@ lobby.methods.addLobby = async function addLobby (lobby) {
 }
 lobby.methods.updateLobby = async function updateLobby (lobby) {
   const {lobbyId, users, words, gameStarted} = lobby
-  // console.log(lobby)
   await Lobby.findOneAndReplace({lobbyId}, {lobbyId, users, words, gameStarted})
 }
 

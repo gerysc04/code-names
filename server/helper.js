@@ -12,6 +12,7 @@ async function fetchWords() {
     data.forEach(word => {
       delete word.id
       delete word._id
+      
     });
     return data
   } catch (error) {

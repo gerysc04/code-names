@@ -14,8 +14,9 @@ function Home({ socket }) {
     socket.emit('join-lobby', { user, lobbyId: lobby.lobbyId })
   })
 
-  socket.on('user-connected', ({user, lobbyId}) => {
-    localStorage.setItem('username', user.name)
+  socket.on('new-user-connected', ({user, lobbyId}) => {
+    const usern = sessionStorage.getItem('username')
+    if(!usern) sessionStorage.setItem('username', user.name)
     navigate('/lobby/'+ lobbyId)
   });
 

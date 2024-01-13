@@ -3,6 +3,7 @@ let id = 0
 const word = new mongoose.Schema({
   word: String,
   color: Number,
+  clicked: Boolean,
   id: Number
 })
 

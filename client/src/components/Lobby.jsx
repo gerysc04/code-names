@@ -9,8 +9,7 @@ function Lobby({ socket }) {
   const navigate = useNavigate()
   const [lobby, setLobby] = useState({users: []})
   const [user, setUser] = useState({name: '', team: 0, role: 0, ready: false})
-  const username = localStorage.getItem('username')
-  
+  const username = sessionStorage.getItem('username')
   
   socket.on('return-lobby', newLobby => {
     setLobby(newLobby)
@@ -24,7 +23,6 @@ socket.on('user-connected', data => {
   socket.emit('get-lobby', lobbyId)  
 })
 socket.on('update-lobby',lobby => {
-  console.log(lobby)
   setLobby(lobby)
 })
 const handleClick = (e) => {
@@ -54,23 +52,21 @@ const handleReadyClick = () => {
   else user.ready = false
   socket.emit('update-user-ready', {user, lobbyId})
 }
-socket.onAny((event, ...args) => {
-  console.log(`Received event: ${event}`);
-});
+
 useEffect(() => {
     socket.emit('get-lobby', lobbyId)  
+    console.log('fired')
     socket.emit('get-user', {username, lobbyId})
   
 }, [])
 
 useEffect(() => {
   const users = lobby.users
-    console.log(users.length)
     if(users !== undefined) {
 
       if (users.length === 4) {
         if (users.every(user => user.ready === true)){
-          navigate('/g/'+ lobbyId)
+          navigate('/game/'+ lobbyId)
         }
       }
     }
