@@ -8,7 +8,7 @@ const word = new mongoose.Schema({
 
 word.methods.addWord = async function addWord (word) {
   
-  const wordObject = {word, id, color: 0}
+  const wordObject = {word, id, color: 0, clicked: false}
   id++
   return await Word.create(wordObject)
 }

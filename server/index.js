@@ -6,11 +6,13 @@ const socketIO = require('socket.io')(http, {
         origin: "http://localhost:3000"
     }
 });
-const lobby = require('./models/lobby')
+const lobby = require('./models/lobby');
+const { fetchWords } = require('./helper');
 
 socketIO.on('connection',  (socket) => {
   socket.on('create-lobby', async({id, username}) => {
-    const newLobby = {lobbyId: id, users: [], gameStarted: false, words: [{word: 'hello', color:0, clicked:false}]}
+    const words = await fetchWords()
+    const newLobby = {lobbyId: id, users: [], gameStarted: false, words, spymasterWords: [{word: 'test', team: '1', relatedWords: 0}]}
     lobby.methods.addLobby(newLobby)
     socket.emit('lobby-created', {lobby: newLobby, username})
   })

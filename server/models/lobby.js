@@ -33,7 +33,8 @@ lobby.methods.addLobby = async function addLobby (lobby) {
  try {
   if (lobby === null) return
   const lobbyWithId = await Lobby.findOne({lobbyId: lobby.lobbyId})
-  if(!lobbyWithId)return await Lobby.create({lobbyId: lobby.lobbyId, users: lobby.users, words: lobby.words, gameStarted: lobby.gameStarted})
+  console.log(lobby.spymasterWords)
+  if(!lobbyWithId)return await Lobby.create({lobbyId: lobby.lobbyId, users: lobby.users, words: lobby.words, gameStarted: lobby.gameStarted, spymasterWords: lobby.spymasterWords})
  } catch (error) {
   console.log(error)
  }
