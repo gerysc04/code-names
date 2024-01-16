@@ -47,7 +47,6 @@ const handleClick = (e) => {
 
 const handleReadyClick = () => {
 
-  console.log(user)
   if (user.ready === false) user.ready = true
   else user.ready = false
   socket.emit('update-user-ready', {user, lobbyId})
@@ -55,7 +54,6 @@ const handleReadyClick = () => {
 
 useEffect(() => {
     socket.emit('get-lobby', lobbyId)  
-    console.log('fired')
     socket.emit('get-user', {username, lobbyId})
   
 }, [])

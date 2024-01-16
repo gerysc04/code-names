@@ -9,6 +9,9 @@ function Home({ socket }) {
   const [username, setusername] = useState('')
   const navigate = useNavigate()
   
+  socket.onAny((eventName, ...args) => {
+    console.log(eventName)
+  });
   socket.on('lobby-created', ({lobby, username}) => {
     const user = { name: username, team: 0, role: 0, ready: false }
     socket.emit('join-lobby', { user, lobbyId: lobby.lobbyId })
@@ -34,6 +37,7 @@ function Home({ socket }) {
 
   const handleCreateClick = (e) => {
     e.preventDefault()
+    console.log('fired')
     if (username === '') return alert('please insert a username')
     const id = generateId()
     socket.emit("create-lobby", {id, username})

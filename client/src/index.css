@@ -168,4 +168,34 @@ body {
   margin: 5px;
 }
 
+.word-form {
+  margin-top: 10px;
+  flex-direction: row;
+}
 
+.custom-button {
+  width:300px;
+}
+
+.dropdown {
+  height: 40px;
+  width: 40px;
+  border: 1px black solid;
+}
+
+.word-pannel {
+  margin: 20px;
+}
+
+.spyword {
+  display: flex;
+  flex-direction: row;
+}
+
+.word-word {
+  margin-right: 10px;
+}
+
+.active {
+  border: 2px solid black;
+}

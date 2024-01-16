@@ -21,7 +21,7 @@ const lobby = new mongoose.Schema({
   spymasterWords:[{
     word: String,
     team: Number,
-    relatedWords: Number
+    relatedWords: Number,
   }],
   scores: [
    {
@@ -30,7 +30,10 @@ const lobby = new mongoose.Schema({
    }
   ],
   winner: Number,
-  gameStarted: Boolean
+  turn: Number,
+  gameStarted: Boolean,
+  wordSubmited: Boolean,
+  activeWord: String
 })
 
 lobby.methods.findLobby = async function findLobby (id) {
@@ -41,15 +44,15 @@ lobby.methods.addLobby = async function addLobby (lobby) {
  try {
   if (lobby === null) return
   const lobbyWithId = await Lobby.findOne({lobbyId: lobby.lobbyId})
-  if(!lobbyWithId)return await Lobby.create({lobbyId: lobby.lobbyId, users: lobby.users, words: lobby.words, gameStarted: lobby.gameStarted, spymasterWords: lobby.spymasterWords, scores: lobby.scores, winner: 0})
+  if(!lobbyWithId)return await Lobby.create({lobbyId: lobby.lobbyId, users: lobby.users, words: lobby.words, gameStarted: lobby.gameStarted, spymasterWords: lobby.spymasterWords, scores: lobby.scores, winner: lobby.winner, turn: lobby.turn, wordSubmited: lobby.wordSubmited})
  } catch (error) {
   console.log(error)
  }
  
 }
 lobby.methods.updateLobby = async function updateLobby (lobby) {
-  const {lobbyId, users, words, gameStarted, spymasterWords, scores} = lobby
-  await Lobby.findOneAndReplace({lobbyId}, {lobbyId, users, words, gameStarted, spymasterWords, scores})
+  const {lobbyId, users, words, gameStarted, spymasterWords, scores, winner, turn, activeWord, wordSubmited} = lobby
+  await Lobby.findOneAndReplace({lobbyId}, {lobbyId, users, words, gameStarted, spymasterWords, scores, winner, turn, activeWord, wordSubmited})
 }
 
 lobby.methods.getLobbys = async function getLobbys () {

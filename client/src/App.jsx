@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Rules from './components/Rules'
 import Lobby from './components/Lobby';
 import Game from './components/Game';
+import EndGame from './components/End-game';
 
 const socket = socketIO.connect("http://localhost:4000")
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/rules" element={<Rules />} />
         <Route path="/lobby/:lobbyId" element={<Lobby socket={socket}/>} />
         <Route path='/game/:lobbyId' element={<Game socket={socket}/>} />
+        <Route path='/end-game/:team' element={<EndGame />} />
       </Routes>
     </BrowserRouter>
    </>

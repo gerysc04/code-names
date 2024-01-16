@@ -1,16 +1,3 @@
-import socketIO from "socket.io-client"
-
-const socket = socketIO.connect("http://localhost:4000")
-  socket.on('lobby-created', data => {
-    const user = {name: 'test', team: 0, role:0, ready: false}
-    socket.emit('join-lobby', {user, lobbyId: '1234'})
-  })
-  
-  socket.on('user-connected', data => {
-    console.log('User connected:', data.message);
-    // Handle the user-connected event
-  });
-
 function Rules() {
 
   return (
