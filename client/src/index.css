@@ -211,3 +211,7 @@ body {
   justify-content: center;
   vertical-align: middle;
 }
+
+.user-name {
+  margin-right: 10px;
+}
