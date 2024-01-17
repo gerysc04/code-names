@@ -6,6 +6,7 @@ return (
     <>
       <div className="container">
       <div className="top-bar">
+      <h2>You are on {userTeam === 1 ? 'blue' : 'red'} team</h2>
       <h2>Its your {turn !== userTeam? "opponent's " : ''}turn</h2>
       {userTeam === turn && <button className="button" onClick={endTurn}>End turn</button>}
       </div>

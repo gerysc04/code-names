@@ -10,15 +10,11 @@ const lobby = require('./models/lobby');
 const { fetchWords } = require('./helper');
 
 socketIO.on('connection', (socket) => {
-  socket.onAny((eventName, ...args) => {
-    console.log(eventName)
-  });
   socket.on('create-lobby', async ({ id, username }) => {
     const words = await fetchWords()
     const newLobby = { lobbyId: id, users: [], gameStarted: false, words, spymasterWords: [], scores: [{ team: 1, score: 0 }, { team: 2, score: 0 }], winner: 0, turn: 1, wordSubmited:false }
     lobby.methods.addLobby(newLobby)
     socket.emit('lobby-created', {lobby: newLobby, username})
-    console.log('fired')
   })
   socket.on('join-lobby', async ({ user, lobbyId }) => {
     const lobbyFetched = await lobby.methods.findLobby(lobbyId)
@@ -105,7 +101,6 @@ socketIO.on('connection', (socket) => {
         }
       }
     })
-    console.log(lobbyFetched.turn)
     lobby.methods.updateLobby(lobbyFetched)
     socketIO.to(lobbyId).emit('update-lobby', lobbyFetched)
     socketIO.to(socket.id).emit('update-lobby', lobbyFetched)
@@ -145,9 +140,9 @@ socketIO.on('connection', (socket) => {
   })
 
   socket.on('update-selected-word', async ({word, lobbyId}) => {
-    console.log('testa')
     const lobbyFetched = await lobby.methods.findLobby(lobbyId)
     lobbyFetched.activeWord = word
+    lobby.methods.updateLobby(lobbyFetched)
     socketIO.to(lobbyId).emit('update-lobby', lobbyFetched)
     socketIO.to(socket.id).emit('update-lobby', lobbyFetched)
   })

@@ -13,12 +13,14 @@ function WordPannel({ words, team, onPannelClick, scores, activeWord }) {
     <>
       <div className="word-pannel">
 
-        <h2>The team score is: {score}</h2>
+        <h2>{team === 1? 'Blue' : 'Red'} team score is: {score}</h2>
         <div className="words"> 
           {words && words.map(word => {
-            if (word.team === team) {
-              if ( word.word === activeWord) {
-                return <div className="spyword active" >
+            if(word.relatedWords > 0 ) {
+
+              if (word.team === team) {
+                if ( word.word === activeWord) {
+                  return <div className="spyword active" >
                 <h3 className="word-word">{word.word}</h3>
                 <h3>{word.relatedWords}</h3>
               </div>
@@ -27,6 +29,7 @@ function WordPannel({ words, team, onPannelClick, scores, activeWord }) {
                 <h3 className="word-word">{word.word}</h3>
                 <h3>{word.relatedWords}</h3>
               </div>
+              } 
             }
             return <></>
           })}

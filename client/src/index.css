@@ -199,3 +199,15 @@ body {
 .active {
   border: 2px solid black;
 }
+
+.rule-text {
+  font-size: 20px;
+  margin: 40px;
+}
+
+.rule-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}

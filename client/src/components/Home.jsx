@@ -47,7 +47,7 @@ function Home({ socket }) {
     e.preventDefault()
     if (username === '') return alert('please insert a username')
     if (lobbyId === '') return alert('please insert a lobby id')
-    const user = { name: username, team: 0, role: 0, ready: false, spymasterWords: [] }
+    const user = { name: username, team: 0, role: 0, ready: false}
     socket.emit('join-lobby', { user, lobbyId })
   }
   const handleOpenJoinModal = () => {
